@@ -19,6 +19,8 @@
 #    - lancer()
 #
 
+#______code initial_____
+
 class Question:
     def __init__(self, titre, choix, bonne_reponse):
         self.titre = titre
@@ -73,21 +75,6 @@ class Questionnaire:
         return score
 
 
-"""questionnaire = (
-    ("Quelle est la capitale de la France ?", ("Marseille", "Nice", "Paris", "Nantes", "Lille"), "Paris"), 
-    ("Quelle est la capitale de l'Italie ?", ("Rome", "Venise", "Pise", "Florence"), "Rome"),
-    ("Quelle est la capitale de la Belgique ?", ("Anvers", "Bruxelles", "Bruges", "Liège"), "Bruxelles")
-                )
-
-lancer_questionnaire(questionnaire)"""
-
-# q1 = Question("Quelle est la capitale de la France ?", ("Marseille", "Nice", "Paris", "Nantes", "Lille"), "Paris")
-# q1.poser()
-
-# data = (("Marseille", "Nice", "Paris", "Nantes", "Lille"), "Paris", "Quelle est la capitale de la France ?")
-# q = Question.FromData(data)
-# print(q.__dict__)
-
 Questionnaire(
     (
     Question("Quelle est la capitale de la France ?", ("Marseille", "Nice", "Paris", "Nantes", "Lille"), "Paris"), 
@@ -95,5 +82,4 @@ Questionnaire(
     Question("Quelle est la capitale de la Belgique ?", ("Anvers", "Bruxelles", "Bruges", "Liège"), "Bruxelles")
     )
 ).lancer()
-
 
