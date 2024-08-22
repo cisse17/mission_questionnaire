@@ -1,26 +1,6 @@
-# PROJET QUESTIONNAIRE V3 : POO
-#
-# - Pratiquer sur la POO
-# - Travailler sur du code existant
-# - Mener un raisonnement
-#
-# -> Définir les entitées (données, actions)
-#
-# Question
-#    - titre       - str
-#    - choix       - (str)
-#    - bonne_reponse   - str
-#
-#    - poser()  -> bool
-#
-# Questionnaire
-#    - questions      - (Question)
-#
-#    - lancer()
-#
 
-#______code initial_____
 import json
+import sys
 
 class Question:
     def __init__(self, titre, choix, bonne_reponse):
@@ -66,6 +46,7 @@ class Question:
             print("ERREUR : Veuillez rentrer uniquement des chiffres")
         return Question.demander_reponse_numerique_utlisateur(min, max)
     
+    
 class Questionnaire:
     def __init__(self, questions, titre, categorie, difficulte):
         self.questions = questions
@@ -80,6 +61,19 @@ class Questionnaire:
 
         return Questionnaire(questions, data["titre"], data["categorie"], data["difficulte"])
 
+    def recuperer_file_json(filename):
+        try:
+            # Chargement du fichier json
+            file = open(filename)
+            json_data = file.read()
+            file.close()
+            data = json.loads(json_data)
+        except:
+            print(f'ERREUR : exception lors de l\'ouverture du fichier  "{filename}" assurez-vous d\'avoir charger un fichier json valide.')
+            return None
+
+        return Questionnaire.from_json_data(data)
+    
     def lancer(self):
         print("***************************")
         print("Questionnaire : ", self.titre)
@@ -88,11 +82,7 @@ class Questionnaire:
         print("Nombre de questions : ", len(self.questions))
         print("***************************")
         score = 0
-        """nbre_questions = len(self.questions)
-        for question, numero_question in enumerate(self.questions):
-            if question.poser_question(numero_question, nbre_questions):
-                score += 1
-        print("Score final :", score, "sur", len(self.questions))"""
+
         for q in range(len(self.questions)):
             question = self.questions[q]
             if question.poser_question(q+1, len(self.questions)):
@@ -101,22 +91,20 @@ class Questionnaire:
         return score
 
 
-"""Questionnaire(
-    (
-    Question("Quelle est la capitale de la France ?", ("Marseille", "Nice", "Paris", "Nantes", "Lille"), "Paris"), 
-    Question("Quelle est la capitale de l'Italie ?", ("Rome", "Venise", "Pise", "Florence"), "Rome"),
-    Question("Quelle est la capitale de la Belgique ?", ("Anvers", "Bruxelles", "Bruges", "Liège"), "Bruxelles")
-    )
-).lancer()"""
+#Questionnaire.from_json_data(data).lancer()
 
+# LANCEMENT DU FICHIER JSON EN LIGNE DE COMMANDE (argv)
+  
+if len(sys.argv) < 2:
+    print("ERREUR : vous devez preciser le nom du fichier json à charger ou à lancer")
+    exit(0)
 
-file = open("animaux_leschats_confirme.json", "r")
-json_data = file.read()
-file.close()
+json_file_name = sys.argv[1]
+quetionnaire = Questionnaire.recuperer_file_json(json_file_name)
+if quetionnaire:
+    quetionnaire.lancer()
 
-data = json.loads(json_data)
-
-Questionnaire.from_json_data(data).lancer()
+    
 
 
 
