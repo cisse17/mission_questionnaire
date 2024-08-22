@@ -20,6 +20,7 @@
 #
 
 #______code initial_____
+import json
 
 class Question:
     def __init__(self, titre, choix, bonne_reponse):
@@ -27,9 +28,10 @@ class Question:
         self.choix = choix
         self.bonne_reponse = bonne_reponse
 
-    def FromData(data):
-        # ....
-        q = Question(data[2], data[0], data[1])
+    def FromJsonData(data):
+        choix = [i[0] for i in data["choix"]]
+        bonne_reponse = [i[0] for i in data["choix"] if i[1] == True]
+        q = Question(data["titre"], choix, bonne_reponse[0])
         return q
 
     def poser(self):
@@ -41,7 +43,7 @@ class Question:
         print()
         resultat_response_correcte = False
         reponse_int = Question.demander_reponse_numerique_utlisateur(1, len(self.choix))
-        if self.choix[reponse_int-1].lower() == self.bonne_reponse.lower():
+        if self.choix[reponse_int-1] == self.bonne_reponse:
             print("Bonne réponse")
             resultat_response_correcte = True
         else:
@@ -75,11 +77,31 @@ class Questionnaire:
         return score
 
 
-Questionnaire(
+"""Questionnaire(
     (
     Question("Quelle est la capitale de la France ?", ("Marseille", "Nice", "Paris", "Nantes", "Lille"), "Paris"), 
     Question("Quelle est la capitale de l'Italie ?", ("Rome", "Venise", "Pise", "Florence"), "Rome"),
     Question("Quelle est la capitale de la Belgique ?", ("Anvers", "Bruxelles", "Bruges", "Liège"), "Bruxelles")
     )
-).lancer()
+).lancer()"""
+
+
+file = open("animaux_leschats_confirme.json", "r")
+json_data = file.read()
+file.close()
+
+data = json.loads(json_data)
+questions = data["questions"]
+
+questionnaire_data = questions[0]
+
+q = Question.FromJsonData(questionnaire_data)
+q.poser()
+
+
+
+
+
+    
+
 
