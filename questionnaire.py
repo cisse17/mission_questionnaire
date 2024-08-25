@@ -95,7 +95,7 @@ class Questionnaire:
             question = self.questions[q]
             if question.poser_question(q+1, len(self.questions)):
                 score += 1
-        print("bien Score final :", score, "sur", len(self.questions))
+        print("🏆 SCORE FINAL :", score, "sur", len(self.questions), "\n")
         return score
 
 
@@ -104,7 +104,7 @@ class Questionnaire:
 # LANCEMENT DU FICHIER JSON EN LIGNE DE COMMANDE 
 # argv
 if len(sys.argv) < 2:
-    print("\n ERREUR : Vous devez préciser le nom du fichier json à charger ou à lancer. \n")
+    print("\n ERREUR : Vous devez préciser le nom du fichier json à charger ou à lancer. Choisissez un nom de fichier json générés dans le fichier import.py \n")
     exit(0)
 
 json_file_name = sys.argv[1]
